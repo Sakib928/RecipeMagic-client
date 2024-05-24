@@ -1,6 +1,16 @@
-import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthProvider";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const { user, userLogout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleLogout = (e) => {
+    e.preventDefault();
+    userLogout().then(toast.success("Logged Out"));
+    navigate("/");
+  };
   const navLinks = (
     <>
       <li>
@@ -9,6 +19,49 @@ const Navbar = () => {
       <li>
         <NavLink to={"/recipes"}>Recipes</NavLink>
       </li>
+    </>
+  );
+
+  const noUserNav = (
+    <>
+      <Link to={"/login"}>
+        <button className="btn btn-outline text-white font-semibold bg-red-500">
+          Sign in
+        </button>
+      </Link>
+    </>
+  );
+
+  const userNav = (
+    <>
+      <div>
+        <div className="dropdown dropdown-end">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
+            <div className="w-10 rounded-full">
+              <img
+                data-tooltip-id="my-tooltip-1"
+                alt="Tailwind CSS Navbar component"
+                src={user?.photoURL}
+              />
+            </div>
+          </div>
+          <ul
+            tabIndex={0}
+            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a className="font-bold">User : {user?.displayName}</a>
+              <a onClick={handleLogout} className="font-bold text-red-600">
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </>
   );
 
@@ -50,12 +103,13 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <Link
+          {/* <Link
             to={"/login"}
             className="btn bg-red-500 text-white hover:bg-red-400 font-bold"
           >
             Login
-          </Link>
+          </Link> */}
+          {user ? userNav : noUserNav}
         </div>
       </div>
     </div>

@@ -1,23 +1,53 @@
 import Lottie from "lottie-react";
 import loginAnimation from "../../assets/images/login_animation.json";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { BiSolidHide } from "react-icons/bi";
 import { FaEye, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Login = () => {
   const [passState, setPassState] = useState(false);
   const handleShowPass = () => {
     setPassState(!passState);
   };
+
+  const { userLogin, googleLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const email = form.get("email");
+    const password = form.get("password");
+    userLogin(email, password).then(() => {
+      toast.success("Successfully logged in");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    });
+  };
+
+  const handleGoogleLogin = () => {
+    googleLogin()
+      .then(() => {
+        toast.success("Login Successful");
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
   return (
     <div className="hero bg-base-200">
+      <Toaster />
       <div className="hero-content flex-col lg:flex-row">
         <Lottie
           animationData={loginAnimation}
           className="h-[400px] md:h-[450px] w-[400px] md:w-[450px]"
         ></Lottie>
-        <div className="hero  bg-base-200">
+        <div onSubmit={handleLogin} className="hero  bg-base-200">
           <div className="hero-content flex-col ">
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
               <h1 className="font-bold text-4xl text-center pt-4">Login </h1>
@@ -58,7 +88,10 @@ const Login = () => {
                   <button className="btn btn-primary">Login</button>
                 </div>
                 <div className="mt-4 flex">
-                  <p className="flex place-items-center gap-3 btn btn-ghost">
+                  <p
+                    onClick={handleGoogleLogin}
+                    className="flex place-items-center gap-3 btn btn-ghost"
+                  >
                     <FaGoogle></FaGoogle>Google
                   </p>
                 </div>

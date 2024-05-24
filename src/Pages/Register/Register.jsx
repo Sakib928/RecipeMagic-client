@@ -1,16 +1,49 @@
 import Lottie from "lottie-react";
 import registerAnimation from "../../assets/images/register_animation.json";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { BiSolidHide } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthProvider";
+import toast, { Toaster } from "react-hot-toast";
 const Register = () => {
   const [passState, setPassState] = useState(false);
   const handleShowPass = () => {
     setPassState(!passState);
   };
+
+  const { createUser, profileUpdate, reload, setReload } =
+    useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const name = form.get("name");
+    const email = form.get("email");
+    const photourl = form.get("photourl");
+    const password = form.get("password");
+    console.log(name, email, photourl, password);
+    createUser(email, password)
+      .then(() => {
+        // console.log(res.user);
+        toast.success("Successfully registerd");
+        profileUpdate(name, photourl);
+        e.target.reset();
+        setTimeout(() => {
+          navigate("/");
+          setReload(!reload);
+        }, 2000);
+      })
+      .catch((err) => {
+        // console.log(err.message);
+        toast.error(err.message);
+      });
+  };
   return (
     <div className="hero min-h-screen bg-base-200">
+      <Toaster />
       <div className="hero-content flex-col lg:flex-row-reverse">
         <Lottie
           animationData={registerAnimation}
@@ -20,7 +53,7 @@ const Register = () => {
           <div className="hero-content flex-col">
             <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
               <h1 className="font-bold text-4xl text-center pt-4">Register</h1>
-              <form className="card-body">
+              <form onSubmit={handleRegister} className="card-body">
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Name</span>
