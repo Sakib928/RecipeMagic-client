@@ -4,6 +4,8 @@ import Home from "../Pages/Home/Home";
 import Recipes from "../Pages/Recipes/Recipes";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import AddRecipe from "../Pages/AddRecipe/AddRecipe";
+import Coins from "../Pages/Coins/Coins";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+      {
+        path: "/addRecipe",
+        element: <AddRecipe></AddRecipe>,
+      },
+      {
+        path: "/coins",
+        element: <Coins></Coins>,
       },
     ],
   },

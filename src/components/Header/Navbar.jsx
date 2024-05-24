@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
-import toast from "react-hot-toast";
-
+import toast, { Toaster } from "react-hot-toast";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import coinlogo from "../../assets/images/coins.svg";
 const Navbar = () => {
   const { user, userLogout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -18,6 +19,15 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink to={"/recipes"}>Recipes</NavLink>
+      </li>
+      <li>
+        <NavLink to={"/addRecipe"}>Add Recipe</NavLink>
+      </li>
+      <li>
+        <NavLink className="flex" to={"/coins"}>
+          <img className="w-5 h-5" src={coinlogo} alt="" />
+          Coins
+        </NavLink>
       </li>
     </>
   );
@@ -41,12 +51,12 @@ const Navbar = () => {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
-              <img
-                data-tooltip-id="my-tooltip-1"
-                alt="Tailwind CSS Navbar component"
-                src={user?.photoURL}
-              />
+            <div
+              className="w-10 rounded-full"
+              data-tooltip-id="my-tooltip-1"
+              style={{ backgroundColor: "#999" }}
+            >
+              <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
             </div>
           </div>
           <ul
@@ -56,7 +66,7 @@ const Navbar = () => {
             <li>
               <a className="font-bold">User : {user?.displayName}</a>
               <a onClick={handleLogout} className="font-bold text-red-600">
-                Logout
+                Sign Out
               </a>
             </li>
           </ul>
@@ -67,6 +77,8 @@ const Navbar = () => {
 
   return (
     <div>
+      <Toaster />
+      <ReactTooltip id="my-tooltip-1" content={user?.displayName} />
       <div className="navbar bg-base-100">
         <div className="navbar-start">
           <div className="dropdown">
