@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 const AddRecipes = () => {
+  const { user } = useAuth();
+  const creatorEmail = user.email;
   const {
     register,
-    formState: { errors },
+    // formState: { errors },
     handleSubmit,
     reset,
   } = useForm();
@@ -13,13 +16,29 @@ const AddRecipes = () => {
     const image = data.image[0];
     const formData = new FormData();
     formData.append("image", image);
-    await console.log(data);
-    // await axios
-    //   .post(
-    //     "https://api.imgbb.com/1/upload?key=922bdcf4d3928398611fbc31e3a8a28b",
-    //     formData
-    //   )
-    //   .then((data) => console.log(data.data.data));
+    // await console.log(data);
+    await axios
+      .post(
+        "https://api.imgbb.com/1/upload?key=922bdcf4d3928398611fbc31e3a8a28b",
+        formData
+      )
+      .then((res) => {
+        const recipePhoto = res.data.data.url;
+        const recipe = {
+          ...data,
+          recipePhoto,
+          creatorEmail,
+          watchCount: 0,
+          purchasedBy: [],
+        };
+        console.log(recipe);
+        axios.post("http://localhost:5000/addRecipes", recipe).then((res) => {
+          if (res.data.insertedId) {
+            toast.success("added recipe successfully");
+          }
+          reset();
+        });
+      });
   };
 
   return (
@@ -76,10 +95,10 @@ const AddRecipes = () => {
                 {...register("category", { required: true })}
                 className="select w-full  input-bordered"
               >
-                <option selected>Breakfast</option>
+                <option selected>Seafood</option>
+                <option>Breakfast</option>
                 <option>Lunch</option>
                 <option>Dinner</option>
-                <option>Drinks</option>
               </select>
             </div>
 

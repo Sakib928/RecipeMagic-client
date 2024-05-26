@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
+import axios from "axios";
 const googleProvider = new GoogleAuthProvider();
 
 export const AuthContext = createContext();
@@ -13,6 +14,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
   const googleLogin = () => {
     setLoading(true);
@@ -33,6 +35,13 @@ const AuthProvider = ({ children }) => {
     return () => unsubscribe;
   }, [reload]);
 
+  useEffect(() => {
+    axios.get("http://localhost:5000/recipes").then((res) => {
+      console.log(res.data);
+      setRecipes(res.data);
+    });
+  }, []);
+
   const authInfo = {
     user,
     loading,
@@ -40,6 +49,8 @@ const AuthProvider = ({ children }) => {
     reload,
     setReload,
     userLogout,
+    recipes,
+    setRecipes,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

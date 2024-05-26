@@ -10,7 +10,7 @@ import AboutDev from "../../components/AboutDev/AboutDev";
 const Home = () => {
   return (
     <div>
-      <div className="absolute left-[15px] top-[80px] lg:top-1/2 lg:left-1/4 z-50 text-white text-4xl font-bold ">
+      <div className="absolute left-[15px] top-[80px] lg:top-1/2 lg:left-1/4 z-40 text-white text-4xl font-bold ">
         <div className="h-auto text-red-400 font-extrabold text-6xl">
           <Typewriter
             words={["Baked", "Fried", "Boiled", "Steamed"]}

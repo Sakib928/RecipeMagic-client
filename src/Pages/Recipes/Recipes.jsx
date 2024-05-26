@@ -1,7 +1,13 @@
+import useAuth from "../../hooks/useAuth";
+import RecipeCard from "./RecipeCard";
+
 const Recipes = () => {
+  const { recipes } = useAuth();
   return (
     <div>
-      <h1>this is recipes</h1>
+      {recipes.map((recipe) => {
+        return <RecipeCard key={recipe._id} recipe={recipe}></RecipeCard>;
+      })}
     </div>
   );
 };
