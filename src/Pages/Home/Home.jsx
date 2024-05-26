@@ -5,10 +5,11 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Link } from "react-router-dom";
+import Success from "../../components/Success/Success";
 const Home = () => {
   return (
     <div>
-      <div className="absolute left-[5px] md:top-1/2 md:left-1/4 z-50 text-white text-4xl font-bold ">
+      <div className="absolute left-[15px] top-[80px] lg:top-1/2 lg:left-1/4 z-50 text-white text-4xl font-bold ">
         <div className="h-auto text-red-400 font-extrabold text-6xl">
           <Typewriter
             words={["Baked", "Fried", "Boiled", "Steamed"]}
@@ -37,6 +38,7 @@ const Home = () => {
         </div>
       </div>
       <Banner></Banner>
+      <Success></Success>
     </div>
   );
 };
