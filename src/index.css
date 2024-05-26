@@ -10,3 +10,7 @@ body {
     font-family: "Manrope", sans-serif;
     font-optical-sizing: auto;
 }
+
+.darkened-image {
+    filter: brightness(50%);
+}

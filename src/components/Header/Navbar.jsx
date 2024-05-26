@@ -8,6 +8,11 @@ const Navbar = () => {
   const { user, userLogout, googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const handleLogin = () => {
+    googleLogin().then(() => {
+      toast.success("Successfully logged in");
+    });
+  };
   const handleLogout = (e) => {
     e.preventDefault();
     userLogout().then(toast.success("Logged Out"));
@@ -22,7 +27,7 @@ const Navbar = () => {
         <NavLink to={"/recipes"}>Recipes</NavLink>
       </li>
       <li>
-        <NavLink to={"/addRecipe"}>Add Recipe</NavLink>
+        <NavLink to={"/addRecipes"}>Add Recipe</NavLink>
       </li>
       <li>
         <NavLink className="flex" to={"/coins"}>
@@ -36,7 +41,7 @@ const Navbar = () => {
   const noUserNav = (
     <>
       <button
-        onClick={googleLogin}
+        onClick={handleLogin}
         className="btn btn-outline text-white font-semibold bg-red-500"
       >
         Sign in
@@ -47,7 +52,7 @@ const Navbar = () => {
   const userNav = (
     <>
       <div>
-        <div className="dropdown dropdown-end">
+        <div className="dropdown dropdown-end z-50">
           <div
             tabIndex={0}
             role="button"
@@ -83,7 +88,7 @@ const Navbar = () => {
       <ReactTooltip id="my-tooltip-1" content={user?.displayName} />
       <div className="navbar bg-base-100">
         <div className="navbar-start">
-          <div className="dropdown">
+          <div className="dropdown z-50">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,15 +121,7 @@ const Navbar = () => {
             {navLinks}
           </ul>
         </div>
-        <div className="navbar-end">
-          {/* <Link
-            to={"/login"}
-            className="btn bg-red-500 text-white hover:bg-red-400 font-bold"
-          >
-            Login
-          </Link> */}
-          {user ? userNav : noUserNav}
-        </div>
+        <div className="navbar-end">{user ? userNav : noUserNav}</div>
       </div>
     </div>
   );
