@@ -5,8 +5,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import coinlogo from "../../assets/images/coins.svg";
 const Navbar = () => {
-  const { user, userLogout } = useContext(AuthContext);
+  const { user, userLogout, googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const handleLogout = (e) => {
     e.preventDefault();
     userLogout().then(toast.success("Logged Out"));
@@ -34,11 +35,12 @@ const Navbar = () => {
 
   const noUserNav = (
     <>
-      <Link to={"/login"}>
-        <button className="btn btn-outline text-white font-semibold bg-red-500">
-          Sign in
-        </button>
-      </Link>
+      <button
+        onClick={googleLogin}
+        className="btn btn-outline text-white font-semibold bg-red-500"
+      >
+        Sign in
+      </button>
     </>
   );
 
