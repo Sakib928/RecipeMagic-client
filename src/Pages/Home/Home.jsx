@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Link } from "react-router-dom";
 import Success from "../../components/Success/Success";
+import AboutDev from "../../components/AboutDev/AboutDev";
 const Home = () => {
   return (
     <div>
@@ -39,6 +40,7 @@ const Home = () => {
       </div>
       <Banner></Banner>
       <Success></Success>
+      <AboutDev></AboutDev>
     </div>
   );
 };
