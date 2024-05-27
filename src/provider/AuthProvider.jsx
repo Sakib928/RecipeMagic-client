@@ -32,9 +32,22 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
       // console.log(currentUser);
       setUser(currentUser);
+      const userMail = user?.email;
+      const loggedUser = { email: userMail };
+      if (user) {
+        axios.post(`http://localhost:5000/jwt`, loggedUser, {
+          withCredentials: true,
+        });
+        setUser(user);
+        setLoading(false);
+      } else {
+        axios.post(`http://localhost:5000/logout`, loggedUser, {
+          withCredentials: true,
+        });
+      }
     });
     return () => unsubscribe;
-  }, [reload]);
+  }, [reload, user]);
 
   useEffect(() => {
     axios.get("http://localhost:5000/recipes").then((res) => {
