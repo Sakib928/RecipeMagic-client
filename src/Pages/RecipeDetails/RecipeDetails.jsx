@@ -7,10 +7,15 @@ const RecipeDetails = () => {
   const [recipe, setRecipe] = useState(null);
   console.log(recipe);
   useEffect(() => {
-    axios.get(`http://localhost:5000/recipe/${recipeId.id}`).then((res) => {
-      //   console.log(res.data);
-      setRecipe(res.data);
-    });
+    axios
+      .get(
+        `https://recipe-server-seven.vercel.app
+/recipe/${recipeId.id}`
+      )
+      .then((res) => {
+        //   console.log(res.data);
+        setRecipe(res.data);
+      });
   }, [recipeId.id]);
   return (
     <div>

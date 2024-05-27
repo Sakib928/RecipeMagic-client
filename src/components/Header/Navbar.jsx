@@ -21,10 +21,16 @@ const Navbar = () => {
         userCoin: 50,
       };
       axios
-        .post(`http://localhost:5000/check?email=${res.user.email}`)
+        .post(
+          `https://recipe-server-seven.vercel.app
+/check?email=${res.user.email}`
+        )
         .then((res) => {
           if (res.data.status) {
-            axios.post("http://localhost:5000/profile", userProfile);
+            axios.post(
+              "https://recipe-server-seven.vercel.app/profile",
+              userProfile
+            );
           }
         });
       toast.success("successfully logged in");

@@ -32,7 +32,8 @@ const AddRecipes = () => {
           purchasedBy: [],
         };
         console.log(recipe);
-        axios.post("http://localhost:5000/addRecipes", recipe).then((res) => {
+        axios.post("https://recipe-server-seven.vercel.app
+/addRecipes", recipe).then((res) => {
           if (res.data.insertedId) {
             toast.success("added recipe successfully");
           }

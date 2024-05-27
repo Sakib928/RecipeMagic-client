@@ -8,7 +8,8 @@ const Recipes = () => {
   const [showRecipes, setShowRecipes] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/showRecipes").then((res) => {
+    axios.get("https://recipe-server-seven.vercel.app
+/showRecipes").then((res) => {
       console.log(res.data);
       setShowRecipes(res.data);
     });

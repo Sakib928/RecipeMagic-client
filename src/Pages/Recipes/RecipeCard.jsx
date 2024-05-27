@@ -15,7 +15,7 @@ const RecipeCard = ({ recipe }) => {
     category,
   } = recipe;
   const { user, coins } = useAuth();
-  console.log(user.email, creatorEmail, _id);
+  //   console.log(user.email, creatorEmail, _id);
   const navigate = useNavigate();
   const handleViewDetails = () => {
     if (!user) {
@@ -45,7 +45,8 @@ const RecipeCard = ({ recipe }) => {
         if (result.isConfirmed) {
           axios
             .patch(
-              `http://localhost:5000/purchase/${_id}?user=${user.email}&creator=${creatorEmail}`
+              `https://recipe-server-seven.vercel.app
+/purchase/${_id}?user=${user.email}&creator=${creatorEmail}`
             )
             .then((res) => {
               navigate(`/recipeDetails/${recipe._id}`);

@@ -35,22 +35,32 @@ const AuthProvider = ({ children }) => {
       const userMail = user?.email;
       const loggedUser = { email: userMail };
       if (user) {
-        axios.post(`http://localhost:5000/jwt`, loggedUser, {
-          withCredentials: true,
-        });
+        axios.post(
+          `https://recipe-server-seven.vercel.app
+/jwt`,
+          loggedUser,
+          {
+            withCredentials: true,
+          }
+        );
         setUser(user);
         setLoading(false);
       } else {
-        axios.post(`http://localhost:5000/logout`, loggedUser, {
-          withCredentials: true,
-        });
+        axios.post(
+          `https://recipe-server-seven.vercel.app
+/logout`,
+          loggedUser,
+          {
+            withCredentials: true,
+          }
+        );
       }
     });
     return () => unsubscribe;
   }, [reload, user]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/recipes").then((res) => {
+    axios.get("https://recipe-server-seven.vercel.app/recipes").then((res) => {
       console.log(res.data);
       setRecipes(res.data);
     });
@@ -58,7 +68,10 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/coins?email=${user?.email}`)
+      .get(
+        `https://recipe-server-seven.vercel.app
+/coins?email=${user?.email}`
+      )
       .then((res) => {
         console.log(res.data);
         setCoins(res.data.userCoin);

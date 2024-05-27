@@ -5,7 +5,10 @@ const Coins = () => {
   const { user } = useAuth();
   const handleBuyCoin = (amount) => {
     axios
-      .patch(`http://localhost:5000/buy?email=${user.email}&money=${amount}`)
+      .patch(
+        `https://recipe-server-seven.vercel.app
+/buy?email=${user.email}&money=${amount}`
+      )
       .then((res) => {
         console.log(res.data);
       });
