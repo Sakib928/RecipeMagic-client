@@ -1,16 +1,34 @@
-import { useContext } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../provider/AuthProvider";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import coinlogo from "../../assets/images/coins.svg";
+// import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 const Navbar = () => {
-  const { user, userLogout, googleLogin } = useContext(AuthContext);
+  const { user, userLogout, googleLogin, coins } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
 
   const handleLogin = () => {
-    googleLogin().then(() => {
-      toast.success("Successfully logged in");
+    googleLogin().then((res) => {
+      console.log(res.user.email);
+      const userProfile = {
+        userName: res.user.displayName,
+        userEmail: res.user.email,
+        userPhoto: res.user.photoURL,
+        userCoin: 50,
+      };
+      axios
+        .post(`http://localhost:5000/check?email=${res.user.email}`)
+        .then((res) => {
+          if (res.data.status) {
+            axios.post("http://localhost:5000/profile", userProfile);
+          }
+        });
+      toast.success("successfully logged in");
+      navigate(location.pathname ? location.pathname : "/");
     });
   };
   const handleLogout = (e) => {
@@ -26,14 +44,14 @@ const Navbar = () => {
       <li>
         <NavLink to={"/recipes"}>Recipes</NavLink>
       </li>
+      <li>{user && <NavLink to={"/addRecipes"}>Add Recipe</NavLink>}</li>
       <li>
-        <NavLink to={"/addRecipes"}>Add Recipe</NavLink>
-      </li>
-      <li>
-        <NavLink className="flex" to={"/coins"}>
-          <img className="w-5 h-5" src={coinlogo} alt="" />
-          Coins
-        </NavLink>
+        {user && (
+          <NavLink className="flex" to={"/coins"}>
+            <img className="w-5 h-5" src={coinlogo} alt="" />
+            Coins : {coins}
+          </NavLink>
+        )}
       </li>
     </>
   );

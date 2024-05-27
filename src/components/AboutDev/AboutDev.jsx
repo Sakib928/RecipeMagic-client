@@ -36,7 +36,7 @@ const AboutDev = () => {
                 <br />
                 <p className="text-gray-600 ">
                   Technologies used for this project : react, node, mongodb,
-                  jwt, html, css, javascript
+                  jwt, html, tailwindcss, javascript
                 </p>
               </div>
             </div>

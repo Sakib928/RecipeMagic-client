@@ -5,6 +5,8 @@ import Recipes from "../Pages/Recipes/Recipes";
 import AddRecipes from "../Pages/AddRecipes/AddRecipes";
 import Coins from "../Pages/Coins/Coins";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import PrivateRoute from "./PrivateRoutes";
+import RecipeDetails from "../Pages/RecipeDetails/RecipeDetails";
 
 export const router = createBrowserRouter([
   {
@@ -22,11 +24,27 @@ export const router = createBrowserRouter([
       },
       {
         path: "/addRecipes",
-        element: <AddRecipes></AddRecipes>,
+        element: (
+          <PrivateRoute>
+            <AddRecipes></AddRecipes>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/coins",
-        element: <Coins></Coins>,
+        element: (
+          <PrivateRoute>
+            <Coins></Coins>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/recipeDetails/:id",
+        element: (
+          <PrivateRoute>
+            <RecipeDetails></RecipeDetails>
+          </PrivateRoute>
+        ),
       },
     ],
   },

@@ -15,6 +15,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
   const [recipes, setRecipes] = useState([]);
+  const [coins, setCoins] = useState(0);
 
   const googleLogin = () => {
     setLoading(true);
@@ -29,7 +30,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setLoading(false);
-      console.log(currentUser);
+      // console.log(currentUser);
       setUser(currentUser);
     });
     return () => unsubscribe;
@@ -42,6 +43,15 @@ const AuthProvider = ({ children }) => {
     });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/coins?email=${user?.email}`)
+      .then((res) => {
+        console.log(res.data);
+        setCoins(res.data.userCoin);
+      });
+  }, [user?.email]);
+
   const authInfo = {
     user,
     loading,
@@ -51,6 +61,8 @@ const AuthProvider = ({ children }) => {
     userLogout,
     recipes,
     setRecipes,
+    coins,
+    setCoins,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

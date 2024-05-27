@@ -1,11 +1,21 @@
-import useAuth from "../../hooks/useAuth";
+import { useEffect, useState } from "react";
+// import useAuth from "../../hooks/useAuth";
 import RecipeCard from "./RecipeCard";
+import axios from "axios";
 
 const Recipes = () => {
-  const { recipes } = useAuth();
+  // const { recipes } = useAuth();
+  const [showRecipes, setShowRecipes] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/showRecipes").then((res) => {
+      console.log(res.data);
+      setShowRecipes(res.data);
+    });
+  }, []);
   return (
     <div>
-      {recipes.map((recipe) => {
+      {showRecipes.map((recipe) => {
         return <RecipeCard key={recipe._id} recipe={recipe}></RecipeCard>;
       })}
     </div>
